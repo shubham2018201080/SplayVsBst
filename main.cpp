@@ -10,13 +10,19 @@
 #include<ctime>
 
 using namespace std;
-int search_key=33333;
+int search_key=30009713;
 
 struct Node{
     int val;
     struct Node* left;
     struct Node* right;
 };
+
+int height(Node * root){
+    if(!root)
+        return 0;
+    return 1+max(height(root->left),height(root->right));
+}
 
 void inOrder(Node * root){
     if(!root)
@@ -193,20 +199,20 @@ Node * deleteSplay(Node * root, int key){
 	return root;
 }
 
-Node * insertBST(Node * root, int key){
-	if(!root){
-		Node * new_node = getNewNode(key);
-		return new_node;
-	}
 
-	if(root->val==key)
-		return root;
-	if(root->val<key){
-		root->right = insertBST(root->right,key);
-	}else{
-		root->left = insertBST(root->left,key);
-	}
-	return root;
+Node* insertBST(Node* node, int key) 
+{ 
+    /* If the tree is empty, return a new node */
+    if (node == NULL) return getNewNode(key); 
+  
+    /* Otherwise, recur down the tree */
+    if (key < node->val) 
+        node->left  = insertBST(node->left, key); 
+    else if (key > node->val) 
+        node->right = insertBST(node->right, key);    
+  
+    /* return the (unchanged) node pointer */
+    return node; 
 }
 
 void searchBST(Node * root, int key){
@@ -274,7 +280,6 @@ int main(){
     
 
     cout<<splay_root->val<<" "<<bst_root->val<<endl;
-   
     // start_s=clock();
     // splay_root = searchSplay(splay_root,search_key);
     // stop_s=clock();
